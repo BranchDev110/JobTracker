@@ -1,10 +1,22 @@
 import './App.css';
+import { AuthProvider } from './Context/AuthContext';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+import SignIn from './Pages/SignIn';
+import NotFound from './Pages/NotFound';
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+    <AuthProvider>
+      <Routes>
+        <Route 
+          exact
+          path="/signin"
+          element={<SignIn />}
+        />
+        <Route path="*" element={<NotFound/>}/>
+      </Routes>
+    </AuthProvider>
   );
 }
 
