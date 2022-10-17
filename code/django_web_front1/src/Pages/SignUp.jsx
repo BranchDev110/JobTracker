@@ -7,9 +7,9 @@ import FormItem from "../Components/FormComponent";
 import Remember from "../Components/FormComponent/Remember";
 import SignButton from "../Components/FormComponent/SignButton";
 
-import { FORM_DATA as data, SIGN_IN } from "../utils/constant";
+import { FORM_DATA as data, SIGN_UP } from "../utils/constant";
 import { Link } from "react-router-dom";
-const SignIn = () => {
+const SignUp = () => {
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
@@ -25,16 +25,31 @@ const SignIn = () => {
             Hop Hunter
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            If you haven't got any account, <Link to="/signup"><b>Sign up</b></Link> to hunt free jobs.
+            If you haven't got any account,{" "}
+            <Link to="/signup">
+              <b>Sign up</b>
+            </Link>{" "}
+            to hunt free jobs.
           </p>
         </div>
         <Formik
-          initialValues={{ email: "", password: ""}}
+          initialValues={{
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            confirm: "",
+          }}
           validationSchema={Yup.object({
+            firstname: Yup.string().required("First name Required"),
+            lastname: Yup.string().required("Last name Required"),
             email: Yup.string()
               .email("Invalid email address")
               .required("Required"),
-            password: Yup.string().required("Required")
+            password: Yup.string().required("Required"),
+            confirm: Yup.string()
+              .required("Please confirm your password")
+              .oneOf([Yup.ref("password")], "Passwords do not match")
           })}
           onSubmit={(values, { setSubmitting }) => {
             alert(JSON.stringify(values, null, 2));
@@ -42,7 +57,7 @@ const SignIn = () => {
         >
           <Form className="mt-8 space-y-6">
             {data
-              .filter((item) => (item.require & SIGN_IN) !== 0)
+              .filter((item) => (item.require & SIGN_UP) !== 0)
               .map((item) => (
                 <FormItem
                   label={item.text}
@@ -53,8 +68,8 @@ const SignIn = () => {
                   key={item.id}
                 />
               ))}
-            <Remember type={SIGN_IN} />
-            <SignButton type={SIGN_IN} />
+            <Remember type={SIGN_UP} />
+            <SignButton type={SIGN_UP} />
           </Form>
         </Formik>
       </div>
@@ -62,4 +77,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
