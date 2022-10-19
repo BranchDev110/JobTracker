@@ -4,7 +4,7 @@ services:
   db:
     restart: always
     image: postgres
-    container_name: jobtracker #you can change this
+    container_name: db #you can change this
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -30,13 +30,13 @@ services:
     restart: always
       
   rest_api:
-    container_name: django_rest_api
+    container_name: backend
     build:
       context: .
       dockerfile: DockerfilePython
     command: ./run-migrate-and-server.sh
     volumes:
-      - ./code/django_rest_api:/code
+      - ./code/backend:/code
     tty: true
     ports:
       - 8080:8080
@@ -48,18 +48,19 @@ services:
       - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
-  # web_front:
-  #   container_name: django_web_front1
-  #   build:
-  #     context: .
-  #     dockerfile: DockerfileNode
-  #   command: ./npm-install-and-start.sh 
-  #   volumes:
-  #     - ./code/django_web_front1:/code
-  #   tty: true
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - rest_api
+  web_front:
+    container_name: frontend
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    command: ./npm-install-and-start.sh 
+    volumes:
+      - ./code/frontend:/code
+      - '/code/node_modules'
+    tty: true
+    ports:
+      - 3000:3000
+    # depends_on:
+    #   - rest_api
 volumes:
   postgres_data:
