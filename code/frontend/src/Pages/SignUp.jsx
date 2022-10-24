@@ -53,14 +53,11 @@ const SignUp = () => {
               .oneOf([Yup.ref("password")], "Passwords do not match"),
           })}
           onSubmit={async (values, { setSubmitting }) => {
+            console.log(values['firstname']);
             const response = await axios
               .post(
-                "http://localhost:8000/api/profile/?format=json",
-                {
-                  name: values.firstname,
-                  email: values.email,
-                  password: values.password,
-                }
+                "http://localhost:8000/auth/",
+                values
               );
               console.log(response);
             // const response = await fetch(

@@ -1,2 +1,0 @@
-FROM postgres:11.2
-ADD ./code/db/init-user-db.sh /docker-entrypoint-initdb.d

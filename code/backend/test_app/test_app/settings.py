@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'jobtracking.apps.JobtrackingConfig',
-    'usercontrol.apps.UsercontrolConfig',
+    'jobtracking',
+    'usercontrol',
     'rest_framework',
     'corsheaders',
 ]
@@ -89,7 +89,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -128,9 +127,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    'localhost:3000/',
-    '192.168.33.15:3000/',
-    '192.168.33.15:3000'
+    'http://localhost:3000',
+    'http://192.168.16.3:3000',
 )

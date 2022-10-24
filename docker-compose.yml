@@ -33,15 +33,14 @@ services:
     container_name: backend
     build:
       context: .
-      dockerfile: DockerfilePython
+      dockerfile: Dockerfile.python
     command: ./run-migrate-and-server.sh
     volumes:
       - ./code/backend:/code
-    tty: true
     ports:
-      - 8080:8080
+      - 8000:8000
     expose:
-      - 8080
+      - 8000
     environment:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
@@ -57,7 +56,6 @@ services:
     volumes:
       - ./code/frontend:/code
       - '/code/node_modules'
-    tty: true
     ports:
       - 3000:3000
     # depends_on:
